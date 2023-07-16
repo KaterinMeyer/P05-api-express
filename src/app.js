@@ -12,6 +12,6 @@ app.use('/', function (req, res) {
 
 const { PORT } = environment
 
-app.listen(3000, () => {
-    console.log(`Aplicación iniciada en puerto ${PORT}`)
+app.listen(PORT, () => {
+    console.log( `Aplicación iniciada en puerto ${ PORT }` )
 })
