@@ -1,0 +1,5 @@
+# Carpetas/Archivos que no serán cargadas en GitHub, para no hacer repositorio tan pesado
+node_modules
+.vscode
+
+*.env
