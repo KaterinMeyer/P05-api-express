@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 
-app.use('/', function (req, res) {
+app.get('/', function (req, res) {
     return res.status(200).json({ msg: "Bienvenido" })
 })
 

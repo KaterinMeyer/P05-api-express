@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
         required: false,
     },
 }, {versionKey: false})
-
+// Si se dejara en true, al momento de crear un elemento le va a crear una versión
 
 export const UserModel = new mongoose.model('User', userSchema)
+
