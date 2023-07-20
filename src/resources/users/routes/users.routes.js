@@ -10,4 +10,4 @@ usersRouters.get (`${baseURI}/:id`, getUserById)
 usersRouters.patch (`${baseURI}/:id`, updateUserById)
 usersRouters.delete (`${baseURI}/:id`, deleteUserById)
 
-export default usersRouterss
+export default usersRouters
