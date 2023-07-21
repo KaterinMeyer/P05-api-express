@@ -13,20 +13,24 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
-}, { versionKey: false })
+}, { versionKey: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 // Si se dejara en true, al momento de crear un elemento le va a crear una versión
 
 userSchema.pre('save', function (next) {
     // Se ejecuta antes del save y permite modificar el documento que está siendo guardado
     console.log("Usuario a agregar")
-    console.log(this.jSON())
+    console.log(this.toJSON())
     next()
 })
 
-userSchema.post('save', function(document) {
+userSchema.post('save', function (document) {
     console.log("Usuario agregado")
-    console.log( document )
+    console.log(document)
 
+})
+
+userSchema.virtual('fullName').get(function () {
+    return `${this.name} ${this.surname}`
 })
 
 export const UserModel = new mongoose.model('User', userSchema)
