@@ -11,24 +11,7 @@ export async function createPost(req, res) {
 }
 
 export async function getPosts(req, res) {
-    const queryParams = req.query
-    const queryObj = {}
-    const queryKeys = Object.keys(queryParams)
-    if (queryKeys.length > 0) {
-        for (const key of queryKeys) {
-            if (key === 'age') {
-                queryObj[key] = Number(queryParams[key])
-                continue
-            }
-            if (key === "isAdmin") {
-                queryObj[key] = queryParams[key] === 'true'
-            }
-            console.log(key);
-        }
-    }
-    console.log(queryParams)
-    console.log(queryObj)
-    const [posts, error] = await awaitCatcher(PostModel.find(queryObj, { pets: 0, addresses: 0 }))
+    const [posts, error] = await awaitCatcher(PostModel.find().populate("author", "name surname age").exec() )
     if (error) {
         return res.status(400).json({ status: "error", msg: error.message })
     }
@@ -37,7 +20,7 @@ export async function getPosts(req, res) {
 
 export async function getPostById(req, res) {
     const id = req.params.id
-    const [post, error] = await awaitCatcher(PostModel.findById(id))
+    const [post, error] = await awaitCatcher(PostModel.findById(id).populate("author", "-name -surname -age -_id").exec())
     if (!post || error) {
         return res.status(404).json({ status: "error", msg: "usuario no encontrado" })
     }

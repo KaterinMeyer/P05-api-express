@@ -6,7 +6,8 @@ const postSchema = new mongoose.Schema({
     body: String,
     author: {
         type: SchemaTypes.ObjectId,
-        required: true
+        required: true,
+        ref: "User"
     }
 }, { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 // Si se dejara en true, al momento de crear un elemento le va a crear una versión
