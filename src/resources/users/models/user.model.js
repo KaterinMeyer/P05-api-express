@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     ]
-}, { versionKey: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+}, { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 // Si se dejara en true, al momento de crear un elemento le va a crear una versión
 
 userSchema.pre('save', function (next) {
