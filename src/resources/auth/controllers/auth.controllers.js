@@ -27,6 +27,7 @@ export const login = async (req, res) => {
         id: userFound._id,
         name: userFound.name,
         surname: userFound.surname,
+        role: userFound.isAdmin ? 'ADMIN' : 'GUEST'
     }
 
     const token = jwt.sign(payload, TOKEN_SECRET, {

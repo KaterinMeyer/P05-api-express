@@ -24,3 +24,12 @@ export const verifyToken = (req, res, next) => {
         }
     }
 }
+
+export const isAdmin= (req, res, next) => {
+    const user = req.user
+    if (user.role !== 'ADMIN'){
+        return res.status(403).json({"status":"error", msg:"el usuario no tiene los permisos necesarios"})
+    }
+    next()
+
+}
