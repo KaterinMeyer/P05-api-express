@@ -11,7 +11,6 @@ export async function createUser(req, res) {
     return res.status(201).json(userCreated)
 }
 
-
 export async function getUsers(req, res) {
     const queryParams = req.query
     const queryObj = {}
@@ -37,8 +36,19 @@ export async function getUsers(req, res) {
     return res.status(201).json(users)
 }
 
+export async function getUserByEmail(email) {
+    const [user, error] = await awaitCatcher(UserModel.findOne({ email: email }))
+    if (!user || error) {
+        throw new Error("usuario no encontrado")
+    }
+    console.log(user)
+    return user
+}
+
 export async function getUserById(req, res) {
-    const id = req.params.id
+    if (!req.user || !req.user.id)
+        return res.status(404).json({ status: "error", msg: "id no presente" })
+    const id = req.user.id
     const [user, error] = await awaitCatcher(UserModel.findById(id))
     if (!user || error) {
         return res.status(404).json({ status: "error", msg: "usuario no encontrado" })

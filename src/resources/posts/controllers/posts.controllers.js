@@ -20,7 +20,7 @@ export async function getPosts(req, res) {
 
 export async function getPostById(req, res) {
     const id = req.params.id
-    const [post, error] = await awaitCatcher(PostModel.findById(id).populate("author", "-name -surname -age -_id").exec())
+    const [post, error] = await awaitCatcher(PostModel.findById(id).populate("author", "name surname").exec())
     if (!post || error) {
         return res.status(404).json({ status: "error", msg: "usuario no encontrado" })
     }

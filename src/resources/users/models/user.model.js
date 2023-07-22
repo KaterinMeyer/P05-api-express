@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
+import crypto from 'crypto'
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -17,39 +18,28 @@ const userSchema = new mongoose.Schema({
             return validator.isEmail(email)
         }
     },
-    age: {
-        type: Number,
-        required: false,
-        default: 0
+    password: {
+        type: String,
+        required: true,
     },
     isAdmin: {
         type: Boolean,
         required: true,
         default: false
     },
-    pets: [
-        {
-            type: String
-        }
-    ],
-    addresses: [
-        {
-            street: {
-                type: String,
-                required: true
-            },
-            region: {
-                type: String,
-                required: true
-            },
-            number: {
-                type: String,
-                required: true
-            }
-        }
-    ]
+    salt: String
 }, { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 // Si se dejara en true, al momento de crear un elemento le va a crear una versión
+
+userSchema.methods.hashPassword = function (password) {
+    this.salt = crypto.randomBytes(16).toString("hex")
+    this.password = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+}
+userSchema.methods.validPassword = function (password) {
+    const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+    return this.password === hash
+}
+
 
 userSchema.pre('save', function (next) {
     // Se ejecuta antes del save y permite modificar el documento que está siendo guardado
