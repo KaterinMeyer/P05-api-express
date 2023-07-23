@@ -49,7 +49,7 @@ export async function getUserById(req, res) {
     if (!req.user || !req.user.id)
         return res.status(404).json({ status: "error", msg: "id no presente" })
     const id = req.user.id
-    const [user, error] = await awaitCatcher(UserModel.findById(id))
+    const [user, error] = await awaitCatcher(UserModel.findById(id, "-salt - password -name -surname"))
     if (!user || error) {
         return res.status(404).json({ status: "error", msg: "usuario no encontrado" })
     }

@@ -31,7 +31,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(payload, TOKEN_SECRET, {
-        expiresIn: "24h",
+        expiresIn: "1h",
         algorithm: "HS512"
     })
     return res.status(200).json({ token })
@@ -47,8 +47,20 @@ export const signup = async (req, res) => {
     user.hashPassword(body.password)
     const [userSaved, error] = await awaitCatcher(user.save())
     if (!userSaved || error) {
+        console.error(error)
         return res.status(400).json({ status: "error", msg: "no se pudo registrar usuario" })
     }
-    return res.status(201).json({ status: "ok", msg: "usuario registrado correctamente" })
+    const payload = {
+        id: user._id,
+        name: user.name,
+        surname: user.surname,
+        role: user.isAdmin ? 'ADMIN' : 'GUEST'
+    }
+
+    const token = jwt.sign(payload, TOKEN_SECRET, {
+        expiresIn: "1h",
+        algorithm: "HS512"
+    })
+    return res.status(201).json({ token })
 
 }
