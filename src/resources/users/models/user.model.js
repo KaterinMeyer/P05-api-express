@@ -6,10 +6,12 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        trim: true,
+        maxLength: 20
     },
     surname: {
         type: String,
-        required: true,
+        required: true
     },
     email: {
         type: String,
@@ -28,6 +30,7 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     salt: String
+
 }, { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 // Si se dejara en true, al momento de crear un elemento le va a crear una versión
 
