@@ -20,7 +20,7 @@ export const login = async (req, res) => {
 
     }
     const payload = {
-        id: userFound._id,
+        id: userFound.id,
         name: userFound.name,
         surname: userFound.surname,
         role: userFound.isAdmin ? 'ADMIN' : 'GUEST'
@@ -47,7 +47,7 @@ export const signup = async (req, res) => {
         return res.status(400).json({ status: "error", msg: "no se pudo registrar al usuario" })
     }
     const payload = {
-        id: user._id,
+        id: user.id,
         name: user.name,
         surname: user.surname,
         role: user.isAdmin ? 'ADMIN' : 'GUEST'
